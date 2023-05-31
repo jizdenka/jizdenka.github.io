@@ -225,7 +225,24 @@ class FormPage extends Page {
 /**
  * Beginning variables
  * */
+var notes = (function loadNotes() {
+    const fromStorage = JSON.parse(localStorage.getItem("notes"));
+    if (fromStorage == undefined) return []
+    console.log(fromStorage)
+    objectlist = fromStorage.map(element => {
+        note = new Note(element.text, element.header, element.time, element.urgency, element.id);
+        return note;
+    });
+    console.log(objectlist)
+    return objectlist;
+})()
 
+let menuToggled = false;
+const menusvg = new MenuSVG();
+const sidemenu = document.getElementsByClassName('sidemenu')[0]
+const showContainer = document.getElementById("maincontainer")
+const toggleMenuDiv = document.getElementById("toggle-menu-svg")
+let noteForm = new NoteForm()
 
 /**
  * 
@@ -264,7 +281,7 @@ function allowDrop(e) {
 
 function loadNotesFromRemote()
 {
-    fetch("http://localhost:8081/api/notes", {method: "GET"})
+    fetch("https://kinetic-genre-388410.wl.r.appspot.com/api/notes", {method: "GET"})
     .then(responce => {
         console.log(responce)
         return responce.json()})
@@ -300,7 +317,7 @@ function uploadNotesToRemote()
     let jsonList = JSON.stringify(notes);
     params = {"notes": notes}
     console.log(jsonList)
-    fetch("http://localhost:8081/api/notes", {method:"POST",headers: {
+    fetch("https://kinetic-genre-388410.wl.r.appspot.com/api/notes", {method:"POST",headers: {
     "Content-Type": "application/json",
   }, body:jsonList})
     .then(responce => {
@@ -366,9 +383,15 @@ function deleteNote(e)
     console.log(notes)
 }
 
+toggleMenuDiv.addEventListener('click', e => {
+    menuToggled = !menuToggled
+    console.log(menuToggled)
+    changeSVG();
+    toggleMenu();
+})
 
-
-
+document.getElementById('download').addEventListener('click', e => loadNotesFromRemote());
+document.getElementById('upload').addEventListener('click', e => uploadNotesToRemote());
 
 
 function drawNotes()
@@ -377,33 +400,7 @@ function drawNotes()
     notes.forEach(element => document.getElementsByClassName('notecontainer').innerHTML += element.toHtml())
 }
 
-
-var notes = (function loadNotes() {
-    const fromStorage = JSON.parse(localStorage.getItem("notes"));
-    if (fromStorage == undefined) return []
-    console.log(fromStorage)
-    objectlist = fromStorage.map(element => {
-        note = new Note(element.text, element.header, element.time, element.urgency, element.id);
-        return note;
-    });
-    console.log(objectlist)
-    return objectlist;
-})()
-
-let menuToggled = false;
-const menusvg = new MenuSVG();
-const sidemenu = document.getElementsByClassName('sidemenu')[0]
-const showContainer = document.getElementById("maincontainer")
-const toggleMenuDiv = document.getElementById("toggle-menu-svg")
-let noteForm = new NoteForm()
-toggleMenuDiv.addEventListener('click', e => {
-    menuToggled = !menuToggled
-    console.log(menuToggled)
-    changeSVG();
-    toggleMenu();
-})
-document.getElementById('download').addEventListener('click', e => loadNotesFromRemote());
-document.getElementById('upload').addEventListener('click', e => uploadNotesToRemote());
+drawNotes()
 const router = new Router({
     pages: [
         new FormPage({ key: 'add', title: 'Add note!' }),
