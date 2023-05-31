@@ -1,0 +1,255 @@
+body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+
+}
+
+body * {
+    font-family: 'Montserrat', sans-serif;
+
+}
+
+header {
+    background-color: rgb(197, 182, 210);
+    width: 100vw;
+    height: 40px;
+    position: fixed;
+    top: -20px;
+    transition-duration: .5s;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+header:hover {
+    top: 0px;
+    transition-duration: .3s;
+
+}
+
+header:hover div {
+    transition-duration: .5s;
+    margin-top: 10px;
+}
+
+header div {
+    transition-duration: .5s;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.firstdivinheader {
+    justify-self: right;
+}
+
+.selectorbutton {
+    display: none;
+}
+
+label {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.tinyscreen {
+    display: none;
+}
+
+
+.hidden-side-menu {
+    transition-duration: .3s;
+    transform: translateX(-100%);
+}
+
+.sidemenu {
+    display: none;
+}
+
+.maincontainer {
+    padding: 20px;
+    padding-top: 60px;
+    max-width: 100vw;
+    min-height: calc(100vh - 100px);
+}
+
+
+.noteform {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hidden {
+    display: none;
+
+}
+
+.noteform div {
+    display: block;
+    min-height: 75px;
+    max-width: 350px;
+}
+
+.noteform div label {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.noteform div input,
+textarea {
+    height: 20px;
+    border: 3px solid rgb(197, 182, 210);
+    margin-top: 15px;
+    font-family: 'Montserrat', sans-serif;
+
+}
+
+.noteform div select {
+    background-color: rgb(197, 182, 210);
+    color: white;
+    min-height: 30px;
+    padding: 10px;
+    border: 0;
+    outline: 0;
+
+}
+
+
+.noteform div select option {
+    min-height: 20px;
+    border: 0;
+}
+
+.noteform * button {
+    height: 30px;
+    width: 70px;
+    background-color: coral;
+    border: none;
+    color: white;
+    font-weight: 800;
+}
+
+.noteform * button:hover {
+    background-color: rgb(250, 190, 168);
+    border: none;
+    color: rgb(124, 114, 114);
+    font-weight: 800;
+}
+
+.notecontainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: space-around;
+}
+
+.note {
+    display: block;
+    width: 40vw;
+    border: 3px solid #4D9DE0;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.urgencycontainer {
+    min-height: calc(100vh - 80px);
+    min-width: 45vw;
+    border: 2px solid #4D9DE0;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+
+
+}
+
+.urgent {
+    border: 3px solid red;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+a::after {
+    color: white;
+}
+
+.delete
+{
+    color: red;
+    
+}
+
+.delete:hover
+{
+    color: rgba(255, 0, 0, 0.752);
+    cursor: pointer;
+    
+}
+
+
+
+
+@media screen and (max-width:700px) {
+
+    .sidemenu {
+        display: block;
+        position: fixed;
+        margin-top: 40px;
+        transition-duration: .3s;
+        background-color: rgb(197, 182, 210);
+        height: 100vh;
+        width: 200px;
+    }
+
+    header>div {
+        display: none;
+    }
+
+    header:hover div {
+        margin-top: 0;
+    }
+
+    header {
+        top: 0;
+        justify-content: space-between;
+    }
+
+    .tinyscreen {
+        display: block;
+    }
+
+    svg * {
+        transition-duration: .2s;
+    }
+
+    .sidemenu div {
+        padding: 10px;
+        text-align: center;
+        color: white;
+        font-family: 'Montserrat', sans-serif;
+
+    }
+
+    .download-upload {
+        display: block;
+    }
+
+    .note {
+
+        width: 90vw;
+    }
+
+    .urgencycontainer {
+        display: none;
+    }
+
+    .urgencymain::after {
+        content: 'Sorry, this page is not avaliable on your screen';
+    }
+}
