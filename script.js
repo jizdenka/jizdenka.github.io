@@ -278,7 +278,7 @@ function drag(ev) {
 function allowDrop(e) {
     e.preventDefault();
 }
-function escapeHtml(text) {
+function escapehtml(text) {
     return text
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
