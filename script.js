@@ -64,7 +64,7 @@ class NoteForm {
             date = new Date(Date.parse(date));
             date = date.toUTCString();
         }
-        const note = new Note(this.name.value, this.text.value, date, (this.urgency.value === "urgent" ? true : false), notes.length)
+        const note = new Note(escapehtml(this.name.value), escapehtml(this.text.value), date, (this.urgency.value === "urgent" ? true : false), notes.length)
         this.name.value = this.text.value = this.time.value = "";
         return note
     }
@@ -278,7 +278,13 @@ function drag(ev) {
 function allowDrop(e) {
     e.preventDefault();
 }
-
+function escapeHtml(text) {
+    return text
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+  }
 function loadNotesFromRemote()
 {
     fetch("https://kinetic-genre-388410.wl.r.appspot.com/api/notes", {method: "GET"})
