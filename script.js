@@ -74,7 +74,7 @@ class Router {
     constructor(pages, defaultPage) {
         this.pages = pages;
         this.defaultPage = defaultPage;
-        this.actualPage = this.defaultPage;
+        this.actualPage = null;
         this.errorPage = new ErrorPage({ key: 'error page', title: "Page not found" });
         console.log(this.pages);
         this.route(window.location.href);
