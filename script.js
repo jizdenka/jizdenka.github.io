@@ -1,21 +1,21 @@
 class Note {
     constructor(text, header, time, urgency, id) {
-        this.text = text
-        this.header = header
-        this.time = time
-        this.urgency = urgency
-        this.id = id
-        this.deleted = false
+        this.text = text;
+        this.header = header;
+        this.time = time;
+        this.urgency = urgency;
+        this.id = id;
+        this.deleted = false;
     }
 
     toHtml() {
         if (this.deleted) return "";
-        return `<div id = '${this.id}' class = 'note ${this.urgency ? 'urgent' : ''}'><h1>${this.header}</h1><h3 class = delete onclick = deleteNote(event)>delete</h2><p>${this.text}</p><p>Target time is ${this.time}</p></div>`
+        return `<div id = '${this.id}' class = 'note ${this.urgency ? 'urgent' : ''}'><h1>${this.header}</h1><h3 class = delete onclick = deleteNote(event)>delete</h2><p>${this.text}</p><p>Target time is ${this.time}</p></div>`;
     }
 
     toHtmlDraggable() {
         if (this.deleted) return "";
-        return `<div ondragstart="drag(event)" id = '${this.id}' draggable = 'true' class = 'note ${this.urgency ? 'urgent' : ''}'><h1>${this.header}</h1><p>${this.text}</p><p>Created on ${this.time}</p></div>`
+        return `<div ondragstart="drag(event)" id = '${this.id}' draggable = 'true' class = 'note ${this.urgency ? 'urgent' : ''}'><h1>${this.header}</h1><p>${this.text}</p><p>Created on ${this.time}</p></div>`;
     }
 }
 
@@ -26,14 +26,14 @@ class MenuSVG {
     }
 
     makeArrow() {
-        this.firstline.setAttribute("transform", "rotate(-16, 40, 12)")
-        this.secondline.setAttribute("transform", "rotate(16, 40, 28)")
+        this.firstline.setAttribute("transform", "rotate(-16, 40, 12)");
+        this.secondline.setAttribute("transform", "rotate(16, 40, 28)");
         console.log("Making arrow")
     }
 
     makeLines() {
-        this.firstline.setAttribute("transform", "rotate(0, 40, 12)")
-        this.secondline.setAttribute("transform", "rotate(0, 40, 28)")
+        this.firstline.setAttribute("transform", "rotate(0, 40, 12)");
+        this.secondline.setAttribute("transform", "rotate(0, 40, 28)");
     }
 
 }
@@ -42,10 +42,10 @@ class NoteForm {
 
 
     constructor() {
-        this.name = document.getElementById("notename")
-        this.text = document.getElementById("notetext")
-        this.time = document.getElementById("notetime")
-        this.urgency = document.getElementById('urgency')
+        this.name = document.getElementById("notename");
+        this.text = document.getElementById("notetext");
+        this.time = document.getElementById("notetime");
+        this.urgency = document.getElementById('urgency');
     }
 
     getData() {
@@ -53,24 +53,24 @@ class NoteForm {
         
         if (date == '')
         {
-            console.log('a')
-            date = new Date()
+            console.log('a');
+            date = new Date();
             date.setDate(date.getDate() + 1)
             date = date.toUTCString();
-            console.log(date)
+            console.log(date);
         }
         else
         {
             date = new Date(Date.parse(date));
             date = date.toUTCString();
         }
-        const note = new Note( escapehtml(this.text.value),escapehtml(this.name.value), date, (this.urgency.value === "urgent" ? true : false), notes.length)
+        const note = new Note( escapehtml(this.text.value),escapehtml(this.name.value), date, (this.urgency.value === "urgent" ? true : false), notes.length);
         this.name.value = this.text.value = this.time.value = "";
-        return note
+        return note;
     }
 }
 
-class Router {
+class PageRouter {
     constructor(pages, defaultPage) {
         this.pages = pages;
         this.defaultPage = defaultPage;
@@ -90,8 +90,8 @@ class Router {
             if (element.nodeName == 'A') {
                 e.preventDefault();
                 this.route(element.href);
-                window.history.pushState(null, null, element.href)
-                console.log("routed by a")
+                window.history.pushState(null, null, element.href);
+                console.log("routed by a");
             }
 
         })
@@ -121,7 +121,7 @@ class Page {
 
     showPage() {
         document.title = this.title;
-        this.pageElement.innerHTML = this.render();
+        this.pageElement.innerHTML = this.gethtml();
 
     }
 
@@ -129,8 +129,8 @@ class Page {
         this.pageElement.innerHTML = '';
     }
 
-    render() {
-
+    gethtml() {
+        return "";
     }
 }
 
@@ -141,7 +141,7 @@ class AllNotesPage extends Page {
         super(settings);
     }
 
-    render() {
+    gethtml() {
         let string = "<div class = 'notecontainer'>";
         notes.forEach(e => { string += e.toHtml() });
         string += '</div>';
@@ -154,7 +154,7 @@ class ChangeUrgencyPage extends Page {
         super(settings);
     }
 
-    render() {
+    gethtml() {
         let maincontainer = `<div class = "urgencymain" style = "display: flex;justify-content: space-around;">`;
         let nonUrgentContainer = `<div class = "urgencycontainer" ondrop="drop(event)" ondragover="allowDrop(event)" >`;
         let urgentContainer = `<div class = "urgencycontainer urgent" ondrop="drop(event)" ondragover="allowDrop(event)"" >`
@@ -172,7 +172,7 @@ class ErrorPage extends Page {
     constructor(settings) {
         super(settings);
     }
-    render() {
+    gethtml() {
         return "<h1>Sorry, looks like this page does not exist</h1>"
     }
 }
@@ -181,7 +181,7 @@ class FormPage extends Page {
     constructor(settings) {
         super(settings);
     }
-    render() {
+    gethtml() {
         return `<form class = 'noteform'>
             <div>
                 <label for = 'notename'>Note name</label>
@@ -218,7 +218,7 @@ class FormPage extends Page {
             e.preventDefault();
             //noteForm.getData();
             notes.push(noteForm.getData());
-            updateStorage()
+            updateStorage();
         })
     }
 }
@@ -226,7 +226,7 @@ class FormPage extends Page {
 window.addEventListener("offline", e => addOffline())
 function addOffline()
 {
-    alert("Seems that you are offline. You can use webpage, but can not upload or download notes to server")
+    alert("Seems that you are offline. You can use webpage, but can not upload or download notes to server");
 }
 
 /**
@@ -234,22 +234,22 @@ function addOffline()
  * */
 var notes = (function loadNotes() {
     const fromStorage = JSON.parse(localStorage.getItem("notes"));
-    if (fromStorage == undefined) return []
-    console.log(fromStorage)
+    if (fromStorage == undefined) return [];
+    //console.log(fromStorage)
     objectlist = fromStorage.map(element => {
         note = new Note(element.text, element.header, element.time, element.urgency, element.id);
         return note;
     });
-    console.log(objectlist)
+    //console.log(objectlist);
     return objectlist;
 })()
 
 let menuToggled = false;
 const menusvg = new MenuSVG();
-const sidemenu = document.getElementsByClassName('sidemenu')[0]
-const showContainer = document.getElementById("maincontainer")
-const toggleMenuDiv = document.getElementById("toggle-menu-svg")
-let noteForm = new NoteForm()
+const sidemenu = document.getElementsByClassName('sidemenu')[0];
+const showContainer = document.getElementById("maincontainer");
+const toggleMenuDiv = document.getElementById("toggle-menu-svg");
+let noteForm = new NoteForm();
 
 /**
  * 
@@ -296,17 +296,17 @@ function loadNotesFromRemote()
 {
     fetch("https://kinetic-genre-388410.wl.r.appspot.com/api/notes", {method: "GET"})
     .then(responce => {
-        console.log(responce)
+        //console.log(responce)
         return responce.json()})
     .then((fromStorage) => 
         {
-            console.log("Got responce in json")
-            console.log(fromStorage)
+            console.log("Got responce in json");
+            console.log(fromStorage);
             if (fromStorage == undefined) 
             {
-                notes = []
-                updateStorage()
-                return
+                notes = [];
+                updateStorage();
+                return;
             }
             console.log(fromStorage)
             const objectlist = fromStorage.map(
@@ -316,11 +316,12 @@ function loadNotesFromRemote()
                     return note;
                 });
             notes = objectlist;
-            updateStorage()
-            router.actualPage.showPage()
-            console.log(notes)
-            alert("Notes were updated from server")
-        });
+            updateStorage();
+            pageRouter.actualPage.showPage();
+            //console.log(notes);
+            alert("Notes were updated from server");
+        })
+        .catch(e => alert("Sorry, can not load notes"));
     
 }
 
@@ -340,10 +341,10 @@ function uploadNotesToRemote()
         }
         else
         {
-            alert("Sorry, can not upload your notes")
+            alert("Sorry, can not upload your notes");
         }
     })
-    .catch(error => alert(error))
+    .catch(error => alert(error));
 }
 
 function updateStorage() {
@@ -382,8 +383,8 @@ function drop(e) {
 
 function deleteNote(e)
 {
-    let id = e.target.parentNode.id
-    console.log(id)
+    let id = e.target.parentNode.id;
+    //console.log(id);
     notes = notes.map(note => {
         if (note.id==id)
         {
@@ -392,13 +393,13 @@ function deleteNote(e)
         return note;
     })
     updateStorage();
-    router.actualPage.showPage()
-    console.log(notes)
+    pageRouter.actualPage.showPage();
+    //console.log(notes);
 }
 
 toggleMenuDiv.addEventListener('click', e => {
-    menuToggled = !menuToggled
-    console.log(menuToggled)
+    menuToggled = !menuToggled;
+    //console.log(menuToggled);
     changeSVG();
     toggleMenu();
 })
@@ -409,12 +410,12 @@ document.getElementById('upload').addEventListener('click', e => uploadNotesToRe
 
 function drawNotes()
 {
-    document.getElementsByClassName('notecontainer').innerHTML = ''
-    notes.forEach(element => document.getElementsByClassName('notecontainer').innerHTML += element.toHtml())
+    document.getElementsByClassName('notecontainer').innerHTML = '';
+    notes.forEach(element => document.getElementsByClassName('notecontainer').innerHTML += element.toHtml());
 }
 
-drawNotes()
-const router = new Router(
+drawNotes();
+const pageRouter = new PageRouter(
     [
         new FormPage({ key: 'add', title: 'Add note!' }),
         new AllNotesPage({ key: 'all', title: "All notes" }),
