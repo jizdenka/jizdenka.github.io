@@ -294,6 +294,7 @@ function escapehtml(text) {
   }
 function loadNotesFromRemote()
 {
+    alert("Notes are updating. Please wait for the next alert");
     fetch("https://kinetic-genre-388410.wl.r.appspot.com/api/notes", {method: "GET"})
     .then(responce => {
         //console.log(responce)
@@ -327,7 +328,7 @@ function loadNotesFromRemote()
 
 function uploadNotesToRemote()
 {
-    let listJsons = notes.map(e => { return JSON.stringify(e) });
+    alert("Notes are updating. Please wait for the next alert");
     let jsonList = JSON.stringify(notes);
     params = {"notes": notes}
     console.log(jsonList)
@@ -348,7 +349,6 @@ function uploadNotesToRemote()
 }
 
 function updateStorage() {
-    let listJsons = notes.map(e => { return JSON.stringify(e) });
     let jsonList = JSON.stringify(notes);
     localStorage.setItem('notes', jsonList);
 }
