@@ -71,10 +71,10 @@ class NoteForm {
 }
 
 class Router {
-    constructor({ pages, defaultPage }) {
+    constructor(pages, defaultPage) {
         this.pages = pages;
         this.defaultPage = defaultPage;
-        this.actualPage = null;
+        this.actualPage = this.defaultPage;
         this.errorPage = new ErrorPage({ key: 'error page', title: "Page not found" });
         console.log(this.pages);
         this.route(window.location.href);
@@ -205,7 +205,8 @@ class FormPage extends Page {
                 </select>
             </div>
             <div>
-                <button type="submit">Save</button>
+                <button type="submit">Save locally</button>
+                <p>Saves data locally. For saving data to server use buttons in right top corner.</p>
             </div>
             </form>`;
     }
@@ -220,6 +221,12 @@ class FormPage extends Page {
             updateStorage()
         })
     }
+}
+
+window.addEventListener("offline", e => addOffline())
+function addOffline()
+{
+    alert("Seems that you are offline. You can use webpage, but can not upload or download notes to server")
 }
 
 /**
@@ -407,12 +414,12 @@ function drawNotes()
 }
 
 drawNotes()
-const router = new Router({
-    pages: [
+const router = new Router(
+    [
         new FormPage({ key: 'add', title: 'Add note!' }),
         new AllNotesPage({ key: 'all', title: "All notes" }),
         new FormPage({ key: 'form', title: 'Not Found!' }),
         new ChangeUrgencyPage({ key: 'urgency', title: 'Urgency change' })
     ],
-    defaultPage: 'all'
-});
+    'all'
+);
