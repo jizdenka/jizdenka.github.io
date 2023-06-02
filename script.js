@@ -64,7 +64,7 @@ class NoteForm {
             date = new Date(Date.parse(date));
             date = date.toUTCString();
         }
-        const note = new Note(escapehtml(this.name.value), escapehtml(this.text.value), date, (this.urgency.value === "urgent" ? true : false), notes.length)
+        const note = new Note( escapehtml(this.text.value),escapehtml(this.name.value), date, (this.urgency.value === "urgent" ? true : false), notes.length)
         this.name.value = this.text.value = this.time.value = "";
         return note
     }
@@ -206,8 +206,8 @@ class FormPage extends Page {
             </div>
             <div>
                 <button type="submit">Save locally</button>
-                <p>Saves data locally. For saving data to server use buttons in right top corner.</p>
             </div>
+            <p>Saves data locally. For saving data to server use buttons in right top corner.</p>
             </form>`;
     }
 
